@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'Eras';
+    src: url(./font/eras.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'ErasBold';
+    src: url(./font/eras-bold.ttf) format('truetype');
+}
+
+$eras: 'Eras', sans-serif;
+$eras-bold: 'ErasBold', sans-serif;
+$color-blue: #16589d;
+$color-red: #e42c2c;
+$color-yellow: #fdb626;
+$color-green: #71ae43;
+$color-pink: #b675b1;

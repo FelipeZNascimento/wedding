@@ -1,10 +1,15 @@
 .top-bar {
+    font-family: $eras;
+    font-size: 26px;
     position: fixed;
+    z-index: 9999;
     width: 100%;
-    height: 100px;
-    background-color: #043961;
-    color: white;
-    font-weight: lighter;
+    height: 140px;
+    background-color: #faf8f1;
+    background-image: url("./img/bg.png");
+
+    color: black;
+    font-weight: 600;
     opacity: 1;
     transition: opacity 0.5s;
 
@@ -14,5 +19,40 @@
     span {
         flex-grow: 1;
         text-align: center;
+    }
+}
+
+.logo {
+    height: 120px;
+}
+nav ul {
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: inline-block;
+    width: 155px;
+    text-align: center;
+    transition: all .2s ease-in-out;
+}
+
+li:nth-child(1) a{ color: $color-blue; }
+li:nth-child(2) a{ color: $color-red; }
+li:nth-child(3) a { color: $color-yellow; }
+li:nth-child(4) a { color: $color-green; }
+li:nth-child(5) a { color: $color-pink; }
+
+li:hover{
+    transform: scale(1.1);
+}
+
+@media screen and (max-width:768px) {
+    .top-bar {
+        font-size: 16px;
+        height: 60px;
+    }
+    nav li {
+        width: 80px;
     }
 }

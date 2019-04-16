@@ -1,0 +1,39 @@
+.full-screen {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.main-screen {
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.down-arrow {
+    margin-bottom: 20px;
+    font-size: 60px;
+}
+
+.down-arrow a {
+    color: #d7d7d7;
+}
+
+.down-arrow a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+@media screen and (max-width:768px) {
+    .main-screen {
+        background-image: url(img/background_mobile.jpg);
+    }
+    
+    .down-arrow {
+        justify-content: flex-start;
+        margin-left: 30px;
+    }
+}
