@@ -10,10 +10,14 @@ class DesktopMenu extends Component {
                     <MenuButton key={button.id} link={button.link} description={button.description} />
                 ) 
             } else {
-                return (
-                    <a className="hide-on-mobile" key={button.id} href={button.link}><img className="logo" src={logo} alt="Logo"></img></a>
-                )
+                if (!this.props.mobile) {
+                    return (
+                        <a className="hide-on-mobile" key={button.id} href={button.link}><img className="logo" src={logo} alt="Logo"></img></a>
+                    )
+                }
             }
+
+            return null;
         });
 
         return (

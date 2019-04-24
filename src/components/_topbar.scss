@@ -1,6 +1,6 @@
 .top-bar {
     font-family: $eras;
-    font-size: 26px;
+    font-size: 24px;
     position: fixed;
     z-index: 9999;
     width: 100%;
@@ -28,11 +28,16 @@
 .desktop-nav ul {
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .desktop-nav ul li {
     display: inline-block;
-    width: 155px;
+    width: 120px;
     text-align: center;
     transition: all .2s ease-in-out;
 }
@@ -54,7 +59,7 @@ li:hover{
         font-size: 16px;
         height: 60px;
     }
-    .desktop-nav li {
+    .desktop-nav ul li {
         width: 80px;
     }
 }
