@@ -1,0 +1,19 @@
+.confirmation input {
+    font-size: 36px;
+    font-display: $eras;
+    padding: 10px;
+    margin: 0 5px;
+    border: 0px;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    font-size: 48px;
+}
+
+@media screen and (max-width:768px) {
+    .confirmation input {
+        font-size: 28px;
+        height: 60px;
+        width: 60px;
+    }
+}

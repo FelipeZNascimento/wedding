@@ -4,14 +4,6 @@
     background-image: url("./img/bg.png");
     /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
-.seamless-flowers {
-    position: relative;
-    z-index: 1;
-    height: 140px;
-    opacity: 0.5;
-    background-color: #87a370;
-    background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png");
-}
 .top-flowers {
     width: 400px;
 }
@@ -21,7 +13,7 @@
 }
 
 @media screen and (max-width:768px) {
-    .top-flowers, .names {
+    .top-flowers, .names, .timeline {
         width: 100%;
     }
 }

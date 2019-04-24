@@ -3,8 +3,10 @@
 // Import all components stylings
 
 @import './components/topbar.scss';
+@import './components/mobile_menu.scss';
 
 // Import all sections stylings
 
 @import './sections/home.scss';
 @import './sections/mainContent.scss';
+@import './sections/confirmation.scss';

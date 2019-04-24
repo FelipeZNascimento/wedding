@@ -41,7 +41,7 @@ class Home extends React.Component {
         else imgName = this.state.bgUrl;
     
         return (
-            <div style={{backgroundImage: `url(${imgName})` }} className="full-screen main-screen flex-end">
+            <div id="home" style={{backgroundImage: `url(${imgName})` }} className="full-screen main-screen flex-end">
                 {this.renderArrow()}
             </div>
         )

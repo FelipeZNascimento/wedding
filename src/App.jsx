@@ -1,5 +1,5 @@
 import React from 'react';
-import TopBar from './components/Topbar.jsx';
+import TopBar from './components/topbar.jsx';
 import Home from './sections/home.jsx';
 import MainContent from './sections/mainContent.jsx';
 
