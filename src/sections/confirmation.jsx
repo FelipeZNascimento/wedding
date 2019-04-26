@@ -52,7 +52,7 @@ class Confirmation extends React.Component {
             alert("Erro: " + err);
         })
         .then(res => {
-            alert("foi");
+            alert("Salvo com sucesso!");
         })
     }
 
@@ -87,7 +87,7 @@ class Confirmation extends React.Component {
     selectOption (event, id, selection) {
         let guests = this.state.guests;
         for(let i = 0; i < guests.length; i++) {
-            if (guests[i].id === id) {
+            if (guests[i]._id === id) {
                 if (event === 'wedding')
                     guests[i].wedding = selection;
                 else guests[i].transportation = selection;
@@ -106,12 +106,12 @@ class Confirmation extends React.Component {
                         {guest.name}
                     </td>
                     <td>
-                        <button onClick={() => this.selectOption('wedding', guest.id, true)} className={(guest.wedding ? 'selected-green' : '')} type="button">Confirmado</button>
-                        <button onClick={() => this.selectOption('wedding', guest.id, false)} className={(!guest.wedding ? 'selected-red' : '')} type="button">Não irá</button>
+                        <button onClick={() => this.selectOption('wedding', guest._id, true)} className={(guest.wedding ? 'selected-green' : '')} type="button">Confirmado</button>
+                        <button onClick={() => this.selectOption('wedding', guest._id, false)} className={(!guest.wedding ? 'selected-red' : '')} type="button">Não irá</button>
                     </td>
                     <td>
-                        <button onClick={() => this.selectOption('transport', guest.id, true)} className={(guest.transportation ? 'selected-green' : '')} type="button">Vou de Van</button>
-                        <button onClick={() => this.selectOption('transport', guest.id, false)} className={(!guest.transportation ? 'selected-red' : '')} type="button">Vou de Táxi</button>
+                        <button onClick={() => this.selectOption('transport', guest._id, true)} className={(guest.transportation ? 'selected-green' : '')} type="button">Vou de Van</button>
+                        <button onClick={() => this.selectOption('transport', guest._id, false)} className={(!guest.transportation ? 'selected-red' : '')} type="button">Vou de Táxi</button>
                     </td>
                 </tr>
             )
