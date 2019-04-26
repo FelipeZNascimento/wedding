@@ -26,7 +26,6 @@ class App extends React.Component {
             this.setState({mobile: false})
     }
 
-
     render () {
         return (
             <span>

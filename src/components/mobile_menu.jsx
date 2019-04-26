@@ -29,7 +29,6 @@ class MobileMenu extends Component {
                     <MenuButton onClick={() => this.toggleMenu()} key={button.id} link={button.link} description={button.description}/>
                 )
             }
-
             return null;
         });
 

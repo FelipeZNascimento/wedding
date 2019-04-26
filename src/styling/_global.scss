@@ -29,20 +29,18 @@ a:hover {
 .regular-text {
     font-family: $eras;
     font-size: 24px;
-    padding: 0 200px;
 }
 
 .small-text {
     font-family: $eras;
     font-size: 18px;
-    padding: 0 200px;
 }
 .bold {
     font-weight: bold;
 }
 
 p {
-    padding: 5px;
+    padding: 0 200px;
 }
 
 .noPadding {
@@ -110,7 +108,7 @@ h1, h2, h3, h4, h5 {
         display: inherit;
     }
 
-    .regular-text, .small-text, h1, h2, h3, h4, h5 {
+    p, h1, h2, h3, h4, h5 {
         padding: 0 10px;
     }
 
@@ -120,6 +118,5 @@ h1, h2, h3, h4, h5 {
     .small-text {
         font-size: 14px;
     }
-
-    
+        
 }

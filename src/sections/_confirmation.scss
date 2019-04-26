@@ -9,6 +9,46 @@
     text-align: center;
     font-size: 48px;
 }
+button {
+    background-color: rgba(white, 0.7);
+    border: 2px solid lightgrey;
+    color: grey;
+    font-weight: bold;
+    margin: 5px;
+    padding: 10px;
+    width: 150px;
+    transition: all .2s ease-in-out;
+
+}
+button:hover {
+    background-color: white;
+    transform: scale(1.1);
+}
+button:focus, button:active, button:visited{
+    outline:0;
+}
+
+.guests-table tr {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.guests-table th, .guests-table td {
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0 20px;
+}
+.selected-green {
+    border: 2px solid $color-green !important;
+    color: $color-green;
+    transform: scale(1.1);
+}
+.selected-red {
+    border: 2px solid $color-red !important;
+    color: $color-red;
+    transform: scale(1.1);
+}
 
 @media screen and (max-width:768px) {
     .confirmation input {
@@ -16,4 +56,15 @@
         height: 60px;
         width: 60px;
     }
+
+    .guests-table th, .guests-table td {
+        padding: 0 5px;
+    }
+    button {
+        width: 90px;
+        padding: 5px;
+        margin: 2px;
+        font-size: 12px;
+    }
+    
 }
