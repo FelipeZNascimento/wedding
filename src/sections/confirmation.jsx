@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import TopBar from '../components/topbar.jsx';
 import Loader from "../img/loader.gif";
+const apiUrl = "https://invitation-confirmation.herokuapp.com/api/";
 class Confirmation extends React.Component {
     constructor(props) {
         super(props)
@@ -13,12 +14,15 @@ class Confirmation extends React.Component {
             fetch: false,
             guests: []
         }
+        this.moveOnMax = this.moveOnMax.bind(this)
     }
     componentDidMount() {
         window.addEventListener("resize", this.resize.bind(this));
+        document.getElementById("fifth").addEventListener("input", this.moveOnMax);
+        document.getElementById("sixth").addEventListener("input", this.moveOnMax);
+        document.getElementById("seventh").addEventListener("input", this.moveOnMax);
+        document.getElementById("eighth").addEventListener("input", this.moveOnMax);
 
-        // this.setState({loading:true, fetch:true});
-        // this.apiGet('AB12');
         this.resize();
     }
 
@@ -31,8 +35,7 @@ class Confirmation extends React.Component {
 
 
     apiGet (code) {
-        let url = "https://invitation-confirmation.herokuapp.com/api/confirmation/";
-        
+        let url = apiUrl + "confirmation/";        
         axios.get(url + code)
         .catch(err => {
             alert("Erro: " + err);
@@ -46,8 +49,8 @@ class Confirmation extends React.Component {
     }
 
     apiPost (guest) {
-        let url = "https://invitation-confirmation.herokuapp.com/api/confirm/";
-        axios.get(url + JSON.stringify(guest))
+        let url = apiUrl + "confirm/" + JSON.stringify(guest);        
+        axios.get(url)
         .catch(err => {
             alert("Erro: " + err);
         })
@@ -56,29 +59,41 @@ class Confirmation extends React.Component {
         })
     }
 
-    moveOnMax (event, previousFieldID, nextFieldID) {
+    moveOnMax (event) {
         event.preventDefault();
 
-        if (event.keyCode === 37) //left arrow key
-            document.getElementById(previousFieldID).focus();
-        else if (event.keyCode === 39) //right arrow key
-            document.getElementById(nextFieldID).focus();
-        else if (event.keyCode === 8) { //backspace
+        let previousField = !event.target.previousSibling ? event.target : event.target.previousSibling;
+        let nextField = !event.target.nextSibling ? event.target : event.target.nextSibling;
+
+        if (event.which === 37) { //left arrow key
+            previousField.focus();
+            return;
+        } else if (event.which === 39) { //right arrow key
+            nextField.focus();
+            return;
+        } else if (event.which === 8) { //backspace
             event.currentTarget.value = "";
-            document.getElementById(previousFieldID).focus();
+            previousField.focus();
+            return;
         }
 
-        if (event.keyCode >= 48 && event.keyCode <= 105) {//valid character, fill the form
-                if (event.currentTarget.value.length === 0) {
-                    event.currentTarget.value = event.key.toUpperCase();
-                    document.getElementById(nextFieldID).focus();
-                } else {
-                    document.getElementById(nextFieldID).value = event.key.toUpperCase();
-                    document.getElementById(nextFieldID).focus();
-                }
+        if (event.altKey || event.ctrlKey || event.shiftKey || (event.which !== 0 && (event.which < 48 || event.which > 105)))
+            return;
+
+        let key = event.key ? event.key : event.data;
+
+        if (event.type !== "input") {
+            if (event.currentTarget.value.length === 0)
+                event.currentTarget.value = key;
+            else
+                nextField.value = key;
         }
-        let code = document.getElementById("first").value + document.getElementById("second").value + document.getElementById("third").value + document.getElementById("fourth").value;
+        if (event.inputType === "insertText" || !event.inputType)
+            nextField.focus();
+
+        let code = document.getElementById("first").value + document.getElementById("second").value + document.getElementById("third").value + document.getElementById("fourth").value + document.getElementById("fifth").value + document.getElementById("sixth").value + document.getElementById("seventh").value + document.getElementById("eighth").value;
         if (code.length === 4) { //code complete
+            code = code.toUpperCase();
             this.setState({loading:true, fetch:true});
             this.apiGet(code);
         }
@@ -115,10 +130,6 @@ class Confirmation extends React.Component {
                     </td>
                 </tr>
             )
-
-            // return (
-            //     <MenuButton onClick={() => this.toggleMenu()} key={button.id} link={button.link} description={button.description}/>
-            // )
         });
 
         return (
@@ -129,10 +140,18 @@ class Confirmation extends React.Component {
                     <p className="regular-text">A sequência de 4 dígitos encontra-se na etiqueta no verso do convite</p>
 
                     <form className="confirmation">
-                        <input autoFocus className="shadowed color-blue" type="text" maxLength="1" id="first" onKeyDown={(e) => this.moveOnMax(e,'first','second')} />
-                        <input className="shadowed color-red" type="text" maxLength="1" id="second" onKeyDown={(e) => this.moveOnMax(e,'first','third')} />
-                        <input className="shadowed color-yellow" type="text" maxLength="1" id="third" onKeyDown={(e) => this.moveOnMax(e,'second','fourth')} />
-                        <input className="shadowed color-green" type="text" maxLength="1" id="fourth" onKeyDown={(e) => this.moveOnMax(e,'third','fourth')} />
+                    <span className="hide-on-mobile">
+                            <input autoFocus className="shadowed color-blue" type="text" maxLength="1" id="first" onKeyDown={(e) => this.moveOnMax(e)} />
+                            <input className="shadowed color-red" type="text" maxLength="1" id="second" onKeyDown={(e) => this.moveOnMax(e)} />
+                            <input className="shadowed color-yellow" type="text" maxLength="1" id="third" onKeyDown={(e) => this.moveOnMax(e)} />
+                            <input className="shadowed color-green" type="text" maxLength="1" id="fourth" onKeyDown={(e) => this.moveOnMax(e)} />
+                        </span>
+                        <span className="hide-on-desktop">
+                            <input autoFocus className="shadowed color-blue" type="text" maxLength="1" id="fifth" />
+                            <input className="shadowed color-red" type="text" maxLength="1" id="sixth" />
+                            <input className="shadowed color-yellow" type="text" maxLength="1" id="seventh" />
+                            <input className="shadowed color-green" type="text" maxLength="1" id="eighth" />
+                        </span>
                     </form>
                     <br />
                     <p className="small-text">Caso tenha perdido seu código ou encontre algum problema com a confirmação, entre em contato com os noivos.</p>
@@ -140,7 +159,6 @@ class Confirmation extends React.Component {
                 <div className={(this.state.loading ? 'full-screen flex-center main-content row-align' : 'display-none')}>
                     <img src={Loader} alt="loading"></img>
                 </div>
-                {/* <div className={(this.state.fetch && this.state.guests.length > 0 ? 'full-screen flex-center main-content row-align' : 'display-none')}> */}
                 <div className="full-screen flex-center main-content row-align">
                     <table className="guests-table">
                         <thead>

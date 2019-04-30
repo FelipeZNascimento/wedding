@@ -22,6 +22,12 @@ class MobileMenu extends Component {
         this.setState({openMenu:openMenu});
     }
 
+    handleClick (event) {
+        let openMenu = !this.state.openMenu;
+        if (!document.getElementById('mobileNav').contains(event.target))
+            this.setState({openMenu:openMenu});
+    }
+
     render () {
         const renderMenu = this.props.buttons.map((button, id) => {
             if (button.description !== "logo") {
@@ -37,8 +43,8 @@ class MobileMenu extends Component {
                 <div className={'shadowed top-bar left-align ' + (!this.props.visible ? 'hidden' : '')} onClick={() => this.toggleMenu()}>
                     <FontAwesomeIcon icon="bars"/>&nbsp;Menu                
                 </div>
-                <div className={'mobile-menu-container ' + (this.state.openMenu ? 'slide' : '')}>
-                    <nav className={'mobile-nav ' + (this.state.openMenu ? 'slide' : '')}>
+                <div className={'mobile-menu-container ' + (this.state.openMenu ? 'slide' : '')} onClick={(e) => this.handleClick(e)}>
+                    <nav id="mobileNav" className="mobile-nav">
                         <ul>
                             {renderMenu}
                             <a href="/#home" onClick={() => this.toggleMenu()}><img className="logo" src={logo} alt="Logo"></img></a>
