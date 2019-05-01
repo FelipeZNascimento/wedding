@@ -20,7 +20,7 @@ class App extends React.Component {
     }
 
     resize() {
-        if(window.innerHeight > window.innerWidth)
+        if(window.innerWidth <= 768)
             this.setState({mobile: true})
         else
             this.setState({mobile: false})

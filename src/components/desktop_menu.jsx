@@ -21,7 +21,7 @@ class DesktopMenu extends Component {
         });
 
         return (
-            <nav className={'desktop-nav shadowed top-bar ' + (!this.props.visible ? 'hidden' : '')}>
+            <nav id="desktop-menu" className={'desktop-nav shadowed top-bar ' + (!this.props.visible ? 'hidden' : '')}>
                 <ul>
                     {renderMenu}
                 </ul>
