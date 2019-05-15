@@ -13,9 +13,11 @@
         "react": "latest",
         "react-bootstrap": "^1.0.0-beta.8",
         "react-dom": "latest",
+        "react-id-swiper": "^2.1.2",
         "react-parallax": "^2.2.0",
         "react-router-dom": "latest",
-        "react-scripts": "^2.1.8"
+        "react-scripts": "^2.1.8",
+        "swiper": "^4.5.0"
     },
     "scripts": {
         "start": "react-scripts start",

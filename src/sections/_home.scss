@@ -19,11 +19,23 @@
     text-decoration: none;
 }
 
+.info {
+    position: absolute;
+    width: 100vw;
+}
+
+.info-bottom {
+    bottom: 130px;
+}
+
+.info-top {
+    top: 220px;
+}
+
+.info-img {
+    width: 100%;
+}
 @media screen and (max-width:768px) {
-    .main-screen {
-        background-image: url(img/background_mobile.jpg);
-    }
-    
     .down-arrow {
         justify-content: flex-start;
         margin-bottom: 50px;
