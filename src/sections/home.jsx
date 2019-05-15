@@ -31,7 +31,7 @@ class Home extends React.Component {
         return (
             <div className={(this.props.mobile ? 'info ' : 'display-none ') + (this.state.bgmName === 'home01m' ? 'info-top' : (this.state.bgmName === 'home03m' ? 'info-top' : 'info-bottom'))}>
                 <a href="#evento">
-                    <img className="info-img" src={Info} />
+                    <img className="info-img" src={Info} alt="Sábado, 9/11/2019, 16h45" />
                 </a>
             </div>
         )

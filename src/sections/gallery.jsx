@@ -1,11 +1,11 @@
 import React from 'react';
 import NewSection from '../components/new_section.jsx';
-import Swiper from 'react-id-swiper';
+import Swiper from 'react-id-swiper/lib/ReactIdSwiper.full';
+import Spinner from "../img/spinner.gif";
 
 import { Pagination, Navigation } from 'swiper/dist/js/swiper.esm'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 const galleryImages = require.context('../img/gallery', true);
@@ -26,10 +26,10 @@ let galleryTexts = [
     {id:10, description: "São Pedro da Aldeia/RJ, 2011"},
     {id:11, description: "Roger Waters: The Wall - São Paulo/SP, 2012"},
     {id:12, description: "Amigos 💖 - Curitiba/PR, 2012"},
-    {id:13, description: "Trabalho de graduação Gi: nota 10 - UFPR, 2013"},
+    {id:13, description: "Monografia da Gi: nota 10 - UFPR, 2013"},
     {id:14, description: "Formatura da Jeh - Curitiba/PR, 2014"},
-    {id:15, description: "Aniversário Mariana - Curitiba/PR, 2015"},
-    {id:16, description: "Txupitos! - Curitiba/PR, 2015"},
+    {id:15, description: "Aniversário da Mariana - Curitiba/PR, 2015"},
+    {id:16, description: "Aniversário da Nat (TXUPITOS) - Curitiba/PR, 2015"},
     {id:17, description: "Casamento Anita e Felipe - Porto Alegre/RS, 2015"},
     {id:18, description: "San Andrés/Colômbia, 2016"},
     {id:19, description: "Primeiro mergulho - San Andrés/Colômbia, 2016"},
@@ -41,7 +41,7 @@ let galleryTexts = [
     {id:25, description: "Puzzle Room - Curitiba/PR, 2017"},
     {id:26, description: "Festa de Formatura Fê - Curitiba/PR, 2017"},
     {id:27, description: "Festa de Formatura Fê - Curitiba/PR, 2017"},
-    {id:28, description: "Festa de Formatura Carol - Curitiba/PR, 2017"},
+    {id:28, description: "Festa de Formatura Lê - Curitiba/PR, 2017"},
     {id:29, description: "Mont Saint-Michel - Normandia/França, 2018"},
     {id:30, description: "Saint-Malo - Normandia/França, 2018"},
     {id:31, description: "Pedido de noivado 💍 -  Étretat, Normandia/França, 2018"},
@@ -99,6 +99,7 @@ let galleryTexts = [
 class Gallery extends React.Component {
     constructor(props) {
         super(props)
+        
         this.state = {
             modalOpen:false,
             photoIndex:0
@@ -107,7 +108,10 @@ class Gallery extends React.Component {
     componentDidMount() {
         document.body.addEventListener('keydown', (e) => this.handleKey(e));
     }
-    handleClick (event, id) {
+    handleLoad (event) {
+        console.log("Loadeou: ");
+    }
+    handleClick (id) {
         let modal = !this.state.modalOpen;
         this.setState({
             modalOpen: modal, 
@@ -116,18 +120,15 @@ class Gallery extends React.Component {
     }
     handleKey (event) {
         if (this.state.modalOpen) {
-            if (event.keyCode === 39)
-                this.setNextImage();
-            else if (event.keyCode === 37)
-                this.setPreviousImage();
-            else if (event.keyCode === 27)
+            if (event.keyCode === 27)
                 this.closeModal(event);
         }        
     }
     closeModal (event) {
-        if (event.target.id === 'closeModal' || event.target.id === 'desktop-menu' || event.target.id === 'mainContainer' || !document.getElementById('mainContainer').contains(event.target))
+        if (event.target.id === 'closeModal' || (event.target.id !== 'subtitle' && event.target.className !== 'image-swipe' && event.target.className !== 'swiper-button-prev' && event.target.className !== 'swiper-button-next'))
             this.setState({modalOpen: false});
     }
+
     setPreviousImage () {
         const photoIndex = this.state.photoIndex - 1;
         if (photoIndex > 0)
@@ -141,9 +142,14 @@ class Gallery extends React.Component {
 
     renderModal () {
         const swipeParams = {
-            lazy: true,
-            zoom: true,
             modules: [Pagination, Navigation],
+            keyboard: true,
+            lazy: {
+                //  tell swiper to load images before they appear
+                loadPrevNext: true,
+                // amount of images to load
+                  loadPrevNextAmount: 2,
+            },    
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev'
@@ -162,30 +168,15 @@ class Gallery extends React.Component {
             let photo = galleryImages(`./`+ thumbnail.id +`.jpg`);
             return (
                 <div key={thumbnail.id}>
-                    <img className="image-swipe" src={photo} alt={thumbnail.description} />
-                    <p className="subtitle regular-text">{thumbnail.description} </p>
+                    <div className="swiper-lazy-preloader swiper-lazy-preloader-white" />
+                    <img className="image-swipe swiper-lazy" data-src={photo} alt={thumbnail.description} />
+                    <p id="subtitle" className="subtitle regular-text">{thumbnail.description} </p>
                 </div>
             )
         });
 
 
-        if (this.state.modalOpen && !this.props.mobile) {
-            const photoSrc = galleryImages(`./`+(this.state.photoIndex)+`.jpg`);
-            return (
-                <div tabIndex="0" onKeyDown={(e) => this.handleKey(e)} onClick={(e) => this.closeModal(e)} className={this.state.modalOpen ? 'modal-container' : 'display-none'}>
-                    <div id="mainContainer" className="main-container">
-                        <span className="arrow" onClick={() => this.setPreviousImage()}><FontAwesomeIcon icon="chevron-left" /></span>
-                        <div id="galleryModal" className="content-modal">
-                            <div className="image-frame">
-                                <img className="image-gallery" src={photoSrc} alt={galleryTexts[this.state.photoIndex].description} />
-                            </div>
-                            <p className="noPadding noMargin regular-text">{galleryTexts[this.state.photoIndex].description}</p>                        
-                        </div>
-                        <span className="arrow" onClick={() => this.setNextImage()}><FontAwesomeIcon icon="chevron-right" /></span>
-                    </div>
-                </div>
-            )
-        } else if (this.state.modalOpen && this.props.mobile) {
+        if (this.state.modalOpen) {
             return (
                 <div id="mainContainer" tabIndex="0" className={this.state.modalOpen ? 'modal-container' : 'display-none'} onClick={(e) => this.closeModal(e)}>
                     <div id="closeModal" className="close-modal">X</div>
@@ -193,7 +184,6 @@ class Gallery extends React.Component {
                         {renderImageSwiper}
                     </Swiper>
                 </div>
-
             )
         } else return null;
     }
@@ -201,8 +191,8 @@ class Gallery extends React.Component {
         const renderThumbnails = galleryTexts.map((thumbnail, id) => {
             let photo = galleryThumbs(`./`+(thumbnail.id)+`.jpg`);
             return (
-                <div key={id} className="thumbnail-frame shadowed" onClick={(e) => this.handleClick(e, thumbnail.id)} >
-                    <img className="thumbnail" src={photo} alt={thumbnail.description} />
+                <div key={id} className="thumbnail-frame shadowed" onClick={(e) => this.handleClick(thumbnail.id)} >
+                    <img className='thumbnail' src={photo} alt={thumbnail.description} />
                 </div>
             )
         });
