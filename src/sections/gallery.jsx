@@ -1,7 +1,6 @@
 import React from 'react';
 import NewSection from '../components/new_section.jsx';
 import Swiper from 'react-id-swiper/lib/ReactIdSwiper.full';
-import Spinner from "../img/spinner.gif";
 
 import { Pagination, Navigation } from 'swiper/dist/js/swiper.esm'
 
@@ -125,19 +124,8 @@ class Gallery extends React.Component {
         }        
     }
     closeModal (event) {
-        if (event.target.id === 'closeModal' || (event.target.id !== 'subtitle' && event.target.className !== 'image-swipe' && event.target.className !== 'swiper-button-prev' && event.target.className !== 'swiper-button-next'))
+        if (event.target.id === 'closeModal' || (event.target.id !== 'subtitle' && event.target.className !== 'image-swipe' && !event.target.classList.contains('swiper-button-prev') && !event.target.classList.contains('swiper-button-next')))
             this.setState({modalOpen: false});
-    }
-
-    setPreviousImage () {
-        const photoIndex = this.state.photoIndex - 1;
-        if (photoIndex > 0)
-            this.setState({photoIndex: photoIndex});
-    }
-    setNextImage () {
-        const photoIndex = this.state.photoIndex + 1;
-        if (photoIndex < galleryTexts.length)
-            this.setState({photoIndex: photoIndex});
     }
 
     renderModal () {
@@ -145,10 +133,8 @@ class Gallery extends React.Component {
             modules: [Pagination, Navigation],
             keyboard: true,
             lazy: {
-                //  tell swiper to load images before they appear
                 loadPrevNext: true,
-                // amount of images to load
-                  loadPrevNextAmount: 2,
+                loadPrevNextAmount: 2,
             },    
             navigation: {
                 nextEl: '.swiper-button-next',

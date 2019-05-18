@@ -54,7 +54,23 @@ button:focus, button:active, button:visited{
     color: $color-red;
     transform: scale(1.1);
 }
-
+.spinner-bg {
+    width: 200px;
+    height: 200px;
+    background-image: url('./img/logo_spinner_bg.png');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.spinner {
+    width: 100%;
+    -webkit-animation:spin 2s ease-in infinite;
+    -moz-animation:spin 2s ease-in infinite;
+    animation:spin 2s ease-in-out infinite;
+}
 @media screen and (max-width:768px) {
     .confirmation input {
         font-size: 28px;
@@ -65,10 +81,6 @@ button:focus, button:active, button:visited{
     .guests-table th, .guests-table td {
         padding: 0 5px;
     }
-
-    .guests-table tbody tr {
-        // border-bottom: 1px solid black;
-    }
     
     button {
         width: 90px;
@@ -78,3 +90,7 @@ button:focus, button:active, button:visited{
     }
     
 }
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

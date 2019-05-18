@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import TopBar from '../components/topbar.jsx';
-import Loader from "../img/loader.gif";
+import Spinner from "../img/logo_spinner.png";
 const apiUrl = "https://invitation-confirmation.herokuapp.com/api/";
 class Confirmation extends React.Component {
     constructor(props) {
@@ -14,15 +14,11 @@ class Confirmation extends React.Component {
             fetch: false,
             guests: []
         }
-        this.moveOnMax = this.moveOnMax.bind(this)
     }
+    
     componentDidMount() {
+        document.body.addEventListener('input', (e) => this.moveOnMax(e));
         window.addEventListener("resize", this.resize.bind(this));
-        document.getElementById("fifth").addEventListener("input", this.moveOnMax);
-        document.getElementById("sixth").addEventListener("input", this.moveOnMax);
-        document.getElementById("seventh").addEventListener("input", this.moveOnMax);
-        document.getElementById("eighth").addEventListener("input", this.moveOnMax);
-
         this.resize();
     }
 
@@ -43,7 +39,8 @@ class Confirmation extends React.Component {
         .then(res => {
             this.setState({ 
                 guests: res.data,
-                loading: false
+                loading: false,
+                fetch: true
             });
         })
     }
@@ -141,10 +138,10 @@ class Confirmation extends React.Component {
 
                     <form className="confirmation">
                     <span className="hide-on-mobile">
-                            <input autoFocus className="shadowed color-blue" type="text" maxLength="1" id="first" onKeyDown={(e) => this.moveOnMax(e)} />
-                            <input className="shadowed color-red" type="text" maxLength="1" id="second" onKeyDown={(e) => this.moveOnMax(e)} />
-                            <input className="shadowed color-yellow" type="text" maxLength="1" id="third" onKeyDown={(e) => this.moveOnMax(e)} />
-                            <input className="shadowed color-green" type="text" maxLength="1" id="fourth" onKeyDown={(e) => this.moveOnMax(e)} />
+                            <input autoFocus className="shadowed color-blue" type="text" maxLength="1" id="first" />
+                            <input className="shadowed color-red" type="text" maxLength="1" id="second" />
+                            <input className="shadowed color-yellow" type="text" maxLength="1" id="third" />
+                            <input className="shadowed color-green" type="text" maxLength="1" id="fourth" />
                         </span>
                         <span className="hide-on-desktop">
                             <input autoFocus className="shadowed color-blue" type="text" maxLength="1" id="fifth" />
@@ -157,9 +154,12 @@ class Confirmation extends React.Component {
                     <p className="small-text">Caso tenha perdido seu código ou encontre algum problema com a confirmação, entre em contato com os noivos.</p>
                 </div>
                 <div className={(this.state.loading ? 'full-screen flex-center main-content row-align' : 'display-none')}>
-                    <img src={Loader} alt="loading"></img>
+                    <div className='spinner-bg'>
+                        <img className="spinner" src={Spinner} alt="loading"></img>
+                    </div>
+                    <p className="regular-text bold">Carregando...</p>
                 </div>
-                <div className="full-screen flex-center main-content row-align">
+                <div className={(!this.state.loading && this.state.fetch === true ? 'full-screen flex-center main-content row-align' : 'display-none')}>
                     <table className="guests-table">
                         <thead>
                             <tr>
@@ -179,9 +179,8 @@ class Confirmation extends React.Component {
                         </tbody>
                     </table>
                     <br />
-                    <p className="small-text">Se os nomes aqui dispostos não forem relacionados a você, por favor entre em contato com os noivos.</p>
+                    <p className="small-text">Se os nomes aqui listados não forem relacionados a você, por favor entre em contato com os noivos.</p>
                 </div>
-                
             </span>
         )
     }

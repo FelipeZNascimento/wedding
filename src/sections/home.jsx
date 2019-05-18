@@ -1,5 +1,6 @@
 import React from 'react';
 import Info from '../img/info_white.png';
+import Spinner from "../img/logo_spinner.png";
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -24,7 +25,17 @@ class Home extends React.Component {
         let imgNameMobile = 'home0'+(Math.floor(Math.random() * 5) + 1)+'m';
         let imageUrlMobile = require(`../img/${imgNameMobile}.jpg`);
 
-        this.setState({ bgUrl: imageUrl, bgmName: imgNameMobile, bgmUrl: imageUrlMobile }); 
+        this.setState({ bgUrl: imageUrl, bgmName: imgNameMobile, bgmUrl: imageUrlMobile });
+
+        const loader = document.getElementById('loader');
+        if(loader){
+            loader.classList.add('available');
+            setTimeout(() => {
+                // remove from DOM
+                loader.outerHTML = '';
+            }, 1000)
+        }
+  
     }
 
     renderInfo () {
@@ -46,7 +57,7 @@ class Home extends React.Component {
             </div>
         )
     }
-
+    
     render () {
         let imgName;
         if (this.props.mobile)
@@ -54,10 +65,15 @@ class Home extends React.Component {
         else imgName = this.state.bgUrl;
     
         return (
-            <div id="home" style={{backgroundImage: `url(${imgName})` }} className="full-screen main-screen flex-end">
-                {this.renderInfo()}
-                {this.renderArrow()}
-            </div>
+            <span>
+                <div id="home" style={{backgroundImage: `url(${imgName})` }} className='full-screen main-screen flex-end'>
+                    {this.renderInfo()}
+                    {this.renderArrow()}
+                </div>
+                {/* <div className={this.state.loading ? 'full-screen main-screen flex spinner-bg' : 'display-none'}>
+                    <img className="spinner" src={Spinner} alt="loading"></img>
+                </div> */}
+            </span>
         )
     }
 }
