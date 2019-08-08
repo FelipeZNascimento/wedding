@@ -10,14 +10,35 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mobile:false
+            mobile:false,
+            loading: true
         };
     }
     
     componentDidMount() {
         window.addEventListener("resize", this.resize.bind(this));
         this.resize();
+
+        const loader = document.getElementById('loader');
+        if(loader){
+            loader.classList.add('available');
+            setTimeout(() => {
+                loader.outerHTML = '';
+                this.setState({loading: false});
+
+                var element = document.getElementById(window.location.hash.substr(1));
+                if (element)
+                    element.scrollIntoView();
+            }, 1000)
+        }
+
+
     }
+
+    componentWillUnmount() {
+        document.body.removeEventListener("resize", this.resize.bind(this));
+    }
+
 
     resize() {
         if(window.innerWidth > 768 || window.innerWidth > window.innerHeight)
@@ -28,7 +49,7 @@ class App extends React.Component {
 
     render () {
         return (
-            <span>
+            <span className={this.state.loading ? 'display-none' : ''}>
                 <TopBar mobile={this.state.mobile}/>
                 <Home mobile={this.state.mobile}/>
                 <MainContent mobile={this.state.mobile}/>

@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-
+import {ToastsContainer, ToastsStore, ToastsContainerPosition} from 'react-toasts';
 import TopBar from '../components/topbar.jsx';
 import Spinner from "../img/logo_spinner.png";
 const apiUrl = "https://invitation-confirmation.herokuapp.com/api/";
+
 class Confirmation extends React.Component {
     constructor(props) {
         super(props)
@@ -18,8 +19,21 @@ class Confirmation extends React.Component {
     
     componentDidMount() {
         document.body.addEventListener('input', (e) => this.moveOnMax(e));
+        document.body.addEventListener('keyup', (e) => this.selector(e));
         window.addEventListener("resize", this.resize.bind(this));
         this.resize();
+
+        const loader = document.getElementById('loader');
+        if(loader){
+            loader.classList.add('available');
+            loader.outerHTML = '';
+        }
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('input', (e) => this.moveOnMax(e));
+        document.body.removeEventListener('keyup', (e) => this.selector(e));
+        window.removeEventListener("resize", this.resize.bind(this));
     }
 
     resize() {
@@ -29,7 +43,21 @@ class Confirmation extends React.Component {
             this.setState({mobile: false})
     }
 
+    clearForm() {
+        document.getElementById("first").value = '';
+        document.getElementById("second").value = '';
+        document.getElementById("third").value = '';
+        document.getElementById("fourth").value = '';
+        document.getElementById("fifth").value = '';
+        document.getElementById("sixth").value = '';
+        document.getElementById("seventh").value = '';
+        document.getElementById("eighth").value = '';
 
+        if (this.state.mobile)
+            document.getElementById("fifth").focus();
+        else
+            document.getElementById("first").focus();
+    }
     apiGet (code) {
         let url = apiUrl + "confirmation/";        
         axios.get(url + code)
@@ -37,6 +65,7 @@ class Confirmation extends React.Component {
             alert("Erro: " + err);
         })
         .then(res => {
+            this.clearForm();
             this.setState({ 
                 guests: res.data,
                 loading: false,
@@ -50,10 +79,32 @@ class Confirmation extends React.Component {
         axios.get(url)
         .catch(err => {
             alert("Erro: " + err);
+            ToastsStore.error('Ops, algo errado. Por favor, atualize a página e tente novamente.');
         })
         .then(res => {
-            alert("Salvo com sucesso!");
+            ToastsStore.success('Alteração salva com sucesso!', '', 'regular-text');
         })
+    }
+    selector (event) {
+        let previousField = !event.target.previousSibling ? event.target : event.target.previousSibling;
+        let nextField = !event.target.nextSibling ? event.target : event.target.nextSibling;
+
+        if (event.which === 37) { //left arrow key
+            previousField.focus();
+            event.preventDefault();
+            return;
+        } else if (event.which === 39) { //right arrow key
+            nextField.focus();
+            event.preventDefault();
+            return;
+        } else if (event.which === 8) { //backspace
+            event.currentTarget.value = "";
+            previousField.focus();
+            event.preventDefault();
+            return;
+        }
+
+        
     }
 
     moveOnMax (event) {
@@ -61,18 +112,6 @@ class Confirmation extends React.Component {
 
         let previousField = !event.target.previousSibling ? event.target : event.target.previousSibling;
         let nextField = !event.target.nextSibling ? event.target : event.target.nextSibling;
-
-        if (event.which === 37) { //left arrow key
-            previousField.focus();
-            return;
-        } else if (event.which === 39) { //right arrow key
-            nextField.focus();
-            return;
-        } else if (event.which === 8) { //backspace
-            event.currentTarget.value = "";
-            previousField.focus();
-            return;
-        }
 
         if (event.altKey || event.ctrlKey || event.shiftKey || (event.which !== 0 && (event.which < 48 || event.which > 105)))
             return;
@@ -85,7 +124,7 @@ class Confirmation extends React.Component {
             else
                 nextField.value = key;
         }
-        if (event.inputType === "insertText" || !event.inputType)
+        if (event.inputType === "insertText" || event.inputType === "insertCompositionText" || !event.inputType)
             nextField.focus();
 
         let code = document.getElementById("first").value + document.getElementById("second").value + document.getElementById("third").value + document.getElementById("fourth").value + document.getElementById("fifth").value + document.getElementById("sixth").value + document.getElementById("seventh").value + document.getElementById("eighth").value;
@@ -119,11 +158,11 @@ class Confirmation extends React.Component {
                     </td>
                     <td>
                         <button onClick={() => this.selectOption('wedding', guest._id, true)} className={(guest.wedding ? 'selected-green' : '')} type="button">Confirmado</button>
-                        <button onClick={() => this.selectOption('wedding', guest._id, false)} className={(!guest.wedding ? 'selected-red' : '')} type="button">Não irá</button>
+                        <button onClick={() => this.selectOption('wedding', guest._id, false)} className={(guest.wedding === false ? 'selected-red' : '')} type="button">Não irá</button>
                     </td>
                     <td>
                         <button onClick={() => this.selectOption('transport', guest._id, true)} className={(guest.transportation ? 'selected-green' : '')} type="button">Vou de Van</button>
-                        <button onClick={() => this.selectOption('transport', guest._id, false)} className={(!guest.transportation ? 'selected-red' : '')} type="button">Vou de Táxi</button>
+                        <button onClick={() => this.selectOption('transport', guest._id, false)} className={(guest.transportation === false ? 'selected-red' : '')} type="button">Vou de Táxi</button>
                     </td>
                 </tr>
             )
@@ -132,7 +171,7 @@ class Confirmation extends React.Component {
         return (
             <span>
                 <TopBar alwaysVisible={true} mobile={this.state.mobile}/>
-                <div className={(this.state.fetch ? 'display-none' : 'full-screen flex-center main-content row-align')}>
+                <div className={(this.state.loading || (this.state.fetch && this.state.guests.length > 0) ? 'display-none' : 'full-width flex-center main-content row-align confirmation-container')}>
                     <p className="regular-text bold">Digite aqui seu código de confirmação</p>
                     <p className="regular-text">A sequência de 4 dígitos encontra-se na etiqueta no verso do convite</p>
 
@@ -151,15 +190,16 @@ class Confirmation extends React.Component {
                         </span>
                     </form>
                     <br />
+                    <p className={(this.state.fetch && this.state.guests.length === 0 ? 'small-text color-red bold' : 'display-none')}>Código não encontrado.</p>
                     <p className="small-text">Caso tenha perdido seu código ou encontre algum problema com a confirmação, entre em contato com os noivos.</p>
                 </div>
-                <div className={(this.state.loading ? 'full-screen flex-center main-content row-align' : 'display-none')}>
+                <div className={(this.state.loading ? 'full-width flex-center main-content row-align full-height' : 'display-none')}>
                     <div className='spinner-bg'>
                         <img className="spinner" src={Spinner} alt="loading"></img>
                     </div>
                     <p className="regular-text bold">Carregando...</p>
                 </div>
-                <div className={(!this.state.loading && this.state.fetch === true ? 'full-screen flex-center main-content row-align' : 'display-none')}>
+                <div className={(!this.state.loading && this.state.fetch === true && this.state.guests.length > 0 ? 'full-width flex-center main-content row-align confirmation-container' : 'display-none')}>
                     <table className="guests-table">
                         <thead>
                             <tr>
@@ -180,7 +220,9 @@ class Confirmation extends React.Component {
                     </table>
                     <br />
                     <p className="small-text">Se os nomes aqui listados não forem relacionados a você, por favor entre em contato com os noivos.</p>
+                    <a href="/#home"><button type="button">Salvar e voltar</button></a>
                 </div>
+                <ToastsContainer store={ToastsStore} position={ToastsContainerPosition.BOTTOM_CENTER} lightBackground/>
             </span>
         )
     }

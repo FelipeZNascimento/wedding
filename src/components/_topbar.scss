@@ -7,11 +7,12 @@
     height: 140px;
     background-color: #f1eddf;
     background-image: url("./img/bg.png");
-
+    top: 0 !important;
+    
     color: black;
     font-weight: 600;
     opacity: 0.9;
-    transition: opacity 0.5s;
+    transition: all 0.5s;
 
     display: flex;
     justify-content: center;
@@ -25,6 +26,10 @@
 .logo {
     height: 120px;
 }
+.desktop-nav {
+    transition: all 0.5s;
+}
+
 .desktop-nav ul {
     padding: 0;
     margin: 0;

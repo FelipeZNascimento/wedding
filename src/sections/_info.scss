@@ -1,0 +1,14 @@
+.providers-cointainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    div {
+        flex-grow: 1;
+        text-align: center;
+    }
+}
+.provider-box p {
+    padding: 0px;
+}

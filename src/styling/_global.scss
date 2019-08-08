@@ -23,7 +23,9 @@ a:hover {
     display: none !important;
 }
 .hidden {
+    margin-top: -100px;
     opacity: 0 !important;
+    transition: margin 0.3s;
 }
 
 .regular-text {
@@ -39,8 +41,8 @@ a:hover {
     font-weight: bold;
 }
 
-p {
-    padding: 0 200px;
+p, h1, h2, h3, h4, h5 {
+    padding: 0 300px;
 }
 
 .noPadding {
@@ -58,7 +60,6 @@ p {
 h1, h2, h3, h4, h5 {
     font-family: $eras;
     font-weight: bold;
-    padding: 0 200px;
 }
 .color-blue {
     color: $color-blue;
@@ -78,12 +79,18 @@ h1, h2, h3, h4, h5 {
 .color-teal {
     color: $color-teal;
 }
-
-.full-screen {
+.main-content {
+    text-align: center;
+    background-color: #faf8f1;
+    background-image: url("./img/bg.png");
+}
+.full-width {
     display: flex;
     width: 100%;
-    height: 100vh;
     justify-content: center;
+}
+.full-height {
+    height: 100vh;
 }
 .row-align {
     flex-direction: column;
@@ -99,7 +106,39 @@ h1, h2, h3, h4, h5 {
 .hide-on-desktop {
     display: none;
 }
-
+.link {
+    cursor: pointer;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+  
+  /* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+@media screen and (max-width:1024px) {
+    p, h1, h2, h3, h4, h5 {
+        padding: 0 150px;
+    }
+}
 @media screen and (max-width:768px) {
     .hide-on-mobile {
         display: none;

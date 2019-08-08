@@ -3,6 +3,7 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    height: 100vh;
 }
 
 .down-arrow {
@@ -34,6 +35,11 @@
 
 .info-img {
     width: 100%;
+}
+
+.provider {
+    height: 80px;
+    padding: 5px;
 }
 @media screen and (max-width:768px) {
     .down-arrow {

@@ -17,7 +17,8 @@
         "react-lazy-load": "^3.0.13",
         "react-parallax": "^2.2.0",
         "react-router-dom": "latest",
-        "react-scripts": "^2.1.8",
+        "react-scripts": "^3.0.1",
+        "react-toasts": "^3.0.3",
         "swiper": "^4.5.0"
     },
     "scripts": {

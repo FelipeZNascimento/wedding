@@ -2,7 +2,7 @@
     width: 100vw;
     height: calc(100vh - 30px);
     position: fixed;
-    margin-top: -200vh;
+    margin-top: -110vh;
     transition: margin 0.5s;
     background-color: rgba(0,0,0,0.3);
     z-index: 2;
@@ -35,5 +35,5 @@
 }
 
 .slide {
-    margin-top: 60px !important;
+    margin-top: 0px !important;
 }

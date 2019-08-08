@@ -27,7 +27,14 @@ button:hover {
 button:focus, button:active, button:visited{
     outline:0;
 }
-
+.confirmation-container {
+    margin-top: 140px;
+    height: calc(100vh - 140px);
+}
+.guests-table {
+    overflow: auto;
+    display: block;
+}
 .guests-table tr {
     min-width: 80vw;
     display: flex;
@@ -71,6 +78,31 @@ button:focus, button:active, button:visited{
     -moz-animation:spin 2s ease-in infinite;
     animation:spin 2s ease-in-out infinite;
 }
+.modal-guests-container {
+    background-color: rgba(black, 0.7);
+    position: absolute;
+    height: calc(100vh - 140px);
+}
+.modal-guests {
+    background-color: white;
+}
+.modal-guests table {
+    margin: 10px;
+}
+.modal-close {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(#f1eddf, 1);
+    background-image: url(/static/media/bg.ac1839b0.png);
+    padding: 10px;
+    cursor: pointer;
+}
+.modal-close:hover {
+    background-color: rgba(#f1eddf, 0.7);
+}
 @media screen and (max-width:768px) {
     .confirmation input {
         font-size: 28px;
@@ -88,6 +120,12 @@ button:focus, button:active, button:visited{
         margin: 2px;
         font-size: 12px;
     }
+
+    .confirmation-container {
+        margin-top: 60px;
+        height: calc(100vh - 60px);
+    }
+    
     
 }
 
