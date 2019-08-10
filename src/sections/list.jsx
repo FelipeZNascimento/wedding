@@ -4,7 +4,7 @@ import TopBar from '../components/topbar.jsx';
 import Spinner from "../img/logo_spinner.png";
 const apiUrl = "https://invitation-confirmation.herokuapp.com/api/";
 
-class Confirmation extends React.Component {
+class List extends React.Component {
     constructor(props) {
         super(props)
 
@@ -100,15 +100,23 @@ class Confirmation extends React.Component {
     }
     dynamicSort(property) {
         var sortOrder = 1;
+        var result;
         if(property[0] === "-") {
             sortOrder = -1;
             property = property.substr(1);
         }
         return function (a,b) {
-            if (property === "wedding" || property === "transportation") 
-                var result = (a[property] === b[property]) ? 0 : a[property] ? -1 : 1;
-            else
-                var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            if (property === "date") {
+                var propA = a[property] === null ? new Date(0) : new Date(a[property]);
+                var propB = b[property] === null ? new Date(0) : new Date(b[property]);
+
+                result = (propA.getTime() > propB.getTime()) ? -1 : (propA.getTime() < propB.getTime()) ? 1 : 0;
+
+            } else if (property === "wedding" || property === "transportation") {
+                result = (a[property] === b[property]) ? 0 : a[property] ? -1 : 1;
+            } else {
+                result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            }
 
             return result * sortOrder;
         }
@@ -142,25 +150,35 @@ class Confirmation extends React.Component {
             this.closeModal();
     }
 
+    returnDateString(dateString) {
+        const date = new Date(dateString);
+        return this.state.mobile
+            ? date.toLocaleDateString()
+            : date.toLocaleString();
+    }
+
     render () {
         const renderGuests = this.state.guests.map((guest, id) => {
             return (
                 <tr key={id}>
-                    <td className="regular-text">
+                    <td className="regular-text-list">
                         {guest.name}
                     </td>
-                    <td className="regular-text link" onClick={() => this.openModal(guest.code)}>
+                    <td className="regular-text-list link" onClick={() => this.openModal(guest.code)}>
                         {guest.code}
                     </td>
                     <td>
-                        <button className={(guest.wedding ? 'selected-green' : 'display-none')} type="button">Confirmado</button>
-                        <button className={(guest.wedding === false ? 'selected-red' : 'display-none')} type="button">Não irá</button>
-                        <button className={(guest.wedding === null ? '' : 'display-none')} type="button">-----</button>
+                        <button className={'button-list ' + (guest.wedding ? 'selected-green-list' : 'display-none')} type="button">Sim</button>
+                        <button className={'button-list ' + (guest.wedding === false ? 'selected-red-list' : 'display-none')} type="button">Não</button>
+                        <button className={'button-list ' + (guest.wedding === null ? '' : 'display-none')} type="button">-----</button>
                     </td>
                     <td>
-                        <button className={(guest.transportation ? 'selected-green' : 'display-none')} type="button">Vou de Van</button>
-                        <button className={(guest.transportation === false ? 'selected-red' : 'display-none')} type="button">Vou de Táxi</button>
-                        <button className={(guest.transportation === null ? '' : 'display-none')} type="button">-----</button>
+                        <button className={'button-list ' + (guest.transportation ? 'selected-green-list' : 'display-none')} type="button">Van</button>
+                        <button className={'button-list ' + (guest.transportation === false ? 'selected-red-list' : 'display-none')} type="button">Táxi</button>
+                        <button className={'button-list ' + (guest.transportation === null ? '' : 'display-none')} type="button">-----</button>
+                    </td>
+                    <td className="regular-text-list">
+                        {guest.date ? this.returnDateString(guest.date) : '--'}
                     </td>
                 </tr>
             )
@@ -169,21 +187,21 @@ class Confirmation extends React.Component {
         const renderSelectedGuests = this.state.selectedGuests.map((guest, id) => {
             return (
                 <tr key={id}>
-                    <td className="regular-text">
+                    <td className="regular-text-list">
                         {guest.name}
                     </td>
-                    <td className="regular-text" onClick={() => this.openModal(guest.code)}>
+                    <td className="regular-text-list" onClick={() => this.openModal(guest.code)}>
                         {guest.code}
                     </td>
                     <td>
-                        <button className={(guest.wedding ? 'selected-green' : 'display-none')} type="button">Confirmado</button>
-                        <button className={(guest.wedding === false ? 'selected-red' : 'display-none')} type="button">Não irá</button>
+                        <button className={'button-list ' + (guest.wedding ? 'selected-green-list' : 'display-none')} type="button">Confirmado</button>
+                        <button className={(guest.wedding === false ? 'selected-red-list' : 'display-none')} type="button">Não irá</button>
                         <button className={(guest.wedding === null ? '' : 'display-none')} type="button">-----</button>
                     </td>
                     <td>
-                        <button className={(guest.transportation ? 'selected-green' : 'display-none')} type="button">Vou de Van</button>
-                        <button className={(guest.transportation === false ? 'selected-red' : 'display-none')} type="button">Vou de Táxi</button>
-                        <button className={(guest.transportation === null ? '' : 'display-none')} type="button">-----</button>
+                        <button className={'button-list ' + (guest.transportation ? 'selected-green-list' : 'display-none')} type="button">Vou de Van</button>
+                        <button className={'button-list ' + (guest.transportation === false ? 'selected-red-list' : 'display-none')} type="button">Vou de Táxi</button>
+                        <button className={'button-list ' + (guest.transportation === null ? '' : 'display-none')} type="button">-----</button>
                     </td>
                 </tr>
             )
@@ -206,7 +224,7 @@ class Confirmation extends React.Component {
                     <div className='spinner-bg'>
                         <img className="spinner" src={Spinner} alt="loading"></img>
                     </div>
-                    <p className="regular-text bold">Carregando...</p>
+                    <p className="regular-text-list bold">Carregando...</p>
                 </div>
                 <div className={(!this.state.loading ? 'full-width flex-center main-content row-align confirmation-container' : 'display-none')}>
                     <table className="guests-table">
@@ -218,17 +236,20 @@ class Confirmation extends React.Component {
                                 <th><span className="color-green">{this.state.guestsTransport}</span> | <span className="color-red">{this.state.guestsTransportNot}</span> | {this.state.guestsTransportNull}</th>
                             </tr>
                             <tr>
-                                <th className="regular-text link" onClick={(e) => this.sortGuests("name")}>
+                                <th className="regular-text-list link" onClick={(e) => this.sortGuests("name")}>
                                     Convidados
                                 </th>
-                                <th className="regular-text link" onClick={(e) => this.sortGuests("code")}>
+                                <th className="regular-text-list link" onClick={(e) => this.sortGuests("code")}>
                                     Código
                                 </th>
-                                <th className="regular-text link" onClick={(e) => this.sortGuests("wedding")}>
+                                <th className="regular-text-list link" onClick={(e) => this.sortGuests("wedding")}>
                                     Casamento
                                 </th>
-                                <th className="regular-text link" onClick={(e) => this.sortGuests("transportation")}>
+                                <th className="regular-text-list link" onClick={(e) => this.sortGuests("transportation")}>
                                     Transporte
+                                </th>
+                                <th className="regular-text-list link" onClick={(e) => this.sortGuests("date")}>
+                                    Data
                                 </th>
                             </tr>
                         </thead>
@@ -242,4 +263,4 @@ class Confirmation extends React.Component {
     }
 }
 
-export default Confirmation;
+export default List;

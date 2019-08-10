@@ -103,8 +103,6 @@ class Confirmation extends React.Component {
             event.preventDefault();
             return;
         }
-
-        
     }
 
     moveOnMax (event) {

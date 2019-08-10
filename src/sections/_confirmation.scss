@@ -51,6 +51,18 @@ button:focus, button:active, button:visited{
     flex-basis: 0;
     padding: 0 20px;
 }
+.regular-text-list {
+    font-family: $eras;
+    font-size: 20px;
+}
+.selected-green-list {
+    border: 2px solid $color-green !important;
+    color: $color-green;
+}
+.selected-red-list {
+    border: 2px solid $color-red !important;
+    color: $color-red;
+}
 .selected-green {
     border: 2px solid $color-green !important;
     color: $color-green;
@@ -82,12 +94,13 @@ button:focus, button:active, button:visited{
     background-color: rgba(black, 0.7);
     position: absolute;
     height: calc(100vh - 140px);
+    z-index: 9;
 }
 .modal-guests {
     background-color: white;
 }
 .modal-guests table {
-    margin: 10px;
+    margin: 20px;
 }
 .modal-close {
     color: red;
@@ -97,13 +110,21 @@ button:focus, button:active, button:visited{
     text-align: center;
     background-color: rgba(#f1eddf, 1);
     background-image: url(/static/media/bg.ac1839b0.png);
-    padding: 10px;
+    padding: 20px;
     cursor: pointer;
 }
 .modal-close:hover {
     background-color: rgba(#f1eddf, 0.7);
 }
 @media screen and (max-width:768px) {
+    .regular-text-list {
+        font-size: 10px;
+    }
+
+    .button-list {
+        width: 50px;
+    }
+
     .confirmation input {
         font-size: 28px;
         height: 60px;
