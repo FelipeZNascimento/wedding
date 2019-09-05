@@ -1,0 +1,14 @@
+.accounts-cointainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    div {
+        flex-grow: 1;
+        text-align: center;
+    }
+}
+.account {
+    padding: 10px;
+}
